@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+	<title>Exchange Currency Prediction </title>
+</head>
+<body>
+	<nav class="navbar" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+			<a class="navbar-item" href="https://bulma.io">
+			<img src="public/images/currency_logo.png" alt="Bulma: Free, open source, & modern CSS framework based on Flexbox" width="112" height="28">
+			</a>
+
+			<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+			</a>
+		</div>
+	</nav>
+	<div class="columns is-mobile">
+  		<div class="column is-three-fifths is-offset-one-fifth">
+		  	<form method = "GET" id = "exchangeForm" action="localhost:3000/currency">
+				<div class="column is-half is-offset-one-quarter">
+					<div id = 'danger-notification' class="notification is-danger">
+						Your base currency and target currency are the same. Please change one of them.
+					</div>
+					<label for="" class="label">Amount</label>
+					<div class="field">
+						<div class="control">
+							<input class="input is-info input" id = "amount" name="amount" type="number" placeholder="Enter the amount" min = "1" max = "100000000000" required>
+						</div>
+					</div>
+					<label for="" class="label">Base Currency</label>
+					<div class="select is-fullwidth">
+						<select name = "baseCurrency" id = "base-currency">
+							<option>AUD</option>
+							<option>BGN</option>
+							<option>BRL</option>
+							<option>CAD</option>
+							<option>CHF</option>
+							<option>CNY</option>
+							<option>CZK</option>
+							<option>DKK</option>
+							<option>EUR</option>
+							<option>GBP</option>
+							<option>HKD</option>
+							<option>HRK</option>
+							<option>HUF</option>
+							<option>IDR</option>
+							<option>ILS</option>
+							<option>INR</option>
+							<option>JPY</option>
+							<option>KRW</option>
+							<option>MXN</option>
+							<option>MYR</option>
+							<option>NOK</option>
+							<option>NZD</option>
+							<option>PHP</option>
+							<option>PLN</option>
+							<option>RON</option>
+							<option>RUB</option>
+							<option>SEK</option>
+							<option>SGD</option>
+							<option>THB</option>
+							<option>TRY</option>
+							<option>USD</option>
+							<option>ZAR</option>
+						</select>
+					</div>
+					<label for="" class="label">Target Currency</label>
+					<div class="select select is-fullwidth">
+						<select name="targetCurrency" id = "target-currency">
+							<option>AUD</option>
+							<option>BGN</option>
+							<option>BRL</option>
+							<option>CAD</option>
+							<option>CHF</option>
+							<option>CNY</option>
+							<option>CZK</option>
+							<option>DKK</option>
+							<option>EUR</option>
+							<option>GBP</option>
+							<option>HKD</option>
+							<option>HRK</option>
+							<option>HUF</option>
+							<option>IDR</option>
+							<option>ILS</option>
+							<option>INR</option>
+							<option>JPY</option>
+							<option>KRW</option>
+							<option>MXN</option>
+							<option>MYR</option>
+							<option>NOK</option>
+							<option>NZD</option>
+							<option>PHP</option>
+							<option>PLN</option>
+							<option>RON</option>
+							<option>RUB</option>
+							<option>SEK</option>
+							<option>SGD</option>
+							<option>THB</option>
+							<option>TRY</option>
+							<option>USD</option>
+							<option>ZAR</option>
+						</select>
+					</div>
+					<label for="" class="label">Waiting time</label>
+					<div class="field">
+					<div class="control">
+						<input class="input is-info input" name="waitingTime" type="number" placeholder="Enter weeks between 1 and 250" min = "1" max = "250" required>
+					</div>
+					</div>
+					<button type="submit" class="button is-info is-outlined is-fullwidth">Submit</button>
+					<br />
+					<div class="notification" id = "notification">
+						<p id = 'notification-text'> </p>
+					</div>
+				</div>
+			</form>
+		</div>
+			<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+			<script type="text/javascript">
+
+				$(document).ready(function () {
+					$('#notification').hide();
+					$('#danger-notification').hide();
+				});
+
+				document.addEventListener('DOMContentLoaded', () => {
+					(document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+						$notification = $delete.parentNode;
+						$delete.addEventListener('click', () => {
+						$notification.parentNode.removeChild($notification);
+						});
+					});
+				});
+
+				document.forms['exchangeForm'].addEventListener('submit', (event) => {
+					event.preventDefault();
+					// TODO do something here to show user that form is being submitted
+					$('#notification').hide();
+					$('#danger-notification').hide();
+					if($('#base-currency').val() === $('#target-currency').val())
+					{
+						$('#danger-notification').show();
+						return;
+					}
+					let params = {};
+					$.each($('#exchangeForm').serializeArray(), function(i, field) {
+						params[field.name] = field.value;
+					});
+					let query = Object.keys(params)
+								.map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+								.join('&');
+					const url = "http://localhost:3000/currency?" + query;
+					console.log(url);
+					fetch(url)
+					.then(response => response.json())
+					.then((data) => {
+						const targetCurrency = $('#target-currency').val();
+						const baseCurrency = $('#base-currency').val();
+						let totalCapital = parseFloat(data.rate) * parseFloat($('#amount').val());
+						totalCapital = totalCapital.toFixed(2)
+						const prediction = `The best time to sell your ${targetCurrency} is ${data.date} at the rate of ${data.rate} ${targetCurrency}.
+						Your total capital would be ${totalCapital} ${baseCurrency}`;
+						$('#notification').toggle();
+						$('#notification-text').text(prediction);
+						console.log(data)
+					})
+					.catch(error => console.log(error));
+				});
+		</script>
+	</div>
+</body>
+</html>
