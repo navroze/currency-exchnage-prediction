@@ -49,7 +49,7 @@ npm install -g pm2
 conda env create -f exchange_currency.yml
 
 # Activate the virtual environment from anaconda prompt
-conda activate exchange_currency_test
+conda activate exchange_currency
 
 # Then simply start your app
 npm start
