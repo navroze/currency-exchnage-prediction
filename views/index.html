@@ -122,57 +122,7 @@
 			<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
-			<script type="text/javascript">
-
-				$(document).ready(function () {
-					$('#notification').hide();
-					$('#danger-notification').hide();
-				});
-
-				document.addEventListener('DOMContentLoaded', () => {
-					(document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-						$notification = $delete.parentNode;
-						$delete.addEventListener('click', () => {
-						$notification.parentNode.removeChild($notification);
-						});
-					});
-				});
-
-				document.forms['exchangeForm'].addEventListener('submit', (event) => {
-					event.preventDefault();
-					// TODO do something here to show user that form is being submitted
-					$('#notification').hide();
-					$('#danger-notification').hide();
-					if($('#base-currency').val() === $('#target-currency').val())
-					{
-						$('#danger-notification').show();
-						return;
-					}
-					let params = {};
-					$.each($('#exchangeForm').serializeArray(), function(i, field) {
-						params[field.name] = field.value;
-					});
-					let query = Object.keys(params)
-								.map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-								.join('&');
-					const url = "http://localhost:3000/currency?" + query;
-					console.log(url);
-					fetch(url)
-					.then(response => response.json())
-					.then((data) => {
-						const targetCurrency = $('#target-currency').val();
-						const baseCurrency = $('#base-currency').val();
-						let totalCapital = parseFloat(data.rate) * parseFloat($('#amount').val());
-						totalCapital = totalCapital.toFixed(2)
-						const prediction = `The best time to sell your ${targetCurrency} is ${data.date} at the rate of ${data.rate} ${targetCurrency}.
-						Your total capital would be ${totalCapital} ${baseCurrency}`;
-						$('#notification').toggle();
-						$('#notification-text').text(prediction);
-						console.log(data)
-					})
-					.catch(error => console.log(error));
-				});
-		</script>
+			<script type="text/javascript" src="public/js/exchange.js"></script>
 	</div>
 </body>
 </html>

@@ -24,7 +24,9 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Register the main route
+/**
+ * Register main route.
+ */
 app.use('/', routes);
 
 app.get('/', (req, res) => {

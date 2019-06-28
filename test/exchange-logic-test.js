@@ -27,7 +27,7 @@ describe('Currency Exchange Logic', async () => {
         assert(false);
         done();
       });
-  });
+  }).timeout(50000);
 
   it('Throw an error if error is found in python logic', (done) => {
     const query = {};
@@ -43,7 +43,7 @@ describe('Currency Exchange Logic', async () => {
         assert(error.name === 'Predication error');
         done();
       });
-  });
+  }).timeout(50000);
 
   it('Check if rate is greater than 0', (done) => {
     const query = {
@@ -66,5 +66,5 @@ describe('Currency Exchange Logic', async () => {
         console.log(error);
         done();
       });
-  });
+  }).timeout(50000);
 });

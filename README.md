@@ -1,7 +1,7 @@
 Mini Exchange App 
 =======================
 
-A stock exchange through which external clients can buy the stocks of various companies via an API. The app supports multi-threading using the **PM2** library in node.js. The exchange will reply back with one company stock (highest price) based on targeting, budget & other factors.
+A currency exchange web application which uses holts method for predicting future currency rates. The web app supports multi-threading using the **PM2** library in node.js. The application will generate a forecast and display the retrieved information on UI, starting from current week.
 
 Table of Contents
 -----------------
@@ -13,32 +13,35 @@ Table of Contents
 
 Features
 --------
-
+- **Forecasting** using holts method.
 - **Multi threading** using PM2 Library
+- **JOI schema validation** request schema validation using JOI
 - **Logging** using Winston Library
-- **Node.js clusters** support
-- Seeding Data support for exchange
+- **Testing** using mocha and assert
 
 Prerequisites
 -------------
 
-- Install [MongoDB](https://www.mongodb.org/downloads)
-- Install [Node.js 8.0+](http://nodejs.org)
+- Install [Python](https://www.python.org/downloads/)
+- Install [Node.js LTS](http://nodejs.org)
 
 Getting Started
 ---------------
 
 ```bash
 # Get the latest snapshot
-git clone git@github.com:navroze/mini-exchange.git
+git clone https://github.com/navroze/currency-exchnage-prediction.git
 
-cd mini-exchange
+cd currency
 
 # Install NPM dependencies
 npm install
 
 # Install global dependencies
 npm install -g pm2
+
+# Install python dependecies
+pip install -r requirements.txt
 
 # Then simply start your app
 npm start
@@ -47,7 +50,7 @@ npm start
 npm test
 ```
 
-**Note:** I have provided an additional feature to seed the exchange data. Data can be seeded by running `node seed.js`. This will save you a lot of time to create the test data and test the application.
+**Note:** Set the path of *PYTHON_PATH* in the .env file for the web application to run.
 
 
 Project Structure
@@ -55,16 +58,16 @@ Project Structure
 
 | Name                               | Description                                                  |
 | ---------------------------------- | ------------------------------------------------------------ |
-| **controllers**/stock-controller.js             | Controller for handling the stock exchange route              |
-| **models**/company.js                 | Mongoose schema and model for company.                          |                       |
-| **exchange-logs**/exchange.log                 | File to store logs when the exchange goes through the different stages .                          |                       |
+| **routes**/currency.js             | Controller for handling the currency exchange prediction              |
+| **test/**             | Folder for automated testing using mocha              |
+| **public/**             | Public files for index.html              |
+| **services**/exchange-logic.js             | Logic for connecting to holt.py and receiving the prediction             |
+| **schemas**/request-schema.js                 | REST API request validation schema.                          |                       |
+| **logging**/currency_logging                 | File to store logs.                          |                       |
 | **exchange-logic**/exchange-logic.js                 | Filtering logic to retrieve the company-id for the bid.                          |                       |
-| **validation**/req-validation.js                 | Validator for request sent through API.                          |                       |
-| .env.example                       | Your database URI.           |
+| .env                      | Your PATH variables.           |
 | .eslintrc                          | Rules for eslint linter.                                     |
 | .gitignore                         | Folder and files ignored by git.                             |
 | app.js                             | The main application file.                                   |
 | package.json                       | NPM dependencies.                                            |
-| package-lock.json                  | Contains exact versions of NPM dependencies in package.json. |
-
-
+| requirements.txt                  | Python dependencies for machine learning. |
