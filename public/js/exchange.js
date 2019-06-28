@@ -36,8 +36,7 @@ document.forms.exchangeForm.addEventListener('submit', (event) => {
       const baseCurrency = $('#base-currency').val();
       let totalCapital = parseFloat(data.rate) * parseFloat($('#amount').val());
       totalCapital = totalCapital.toFixed(2);
-      const prediction = `The best time to sell your ${baseCurrency} is ${data.date} at the rate of ${data.rate} ${targetCurrency}.
-        Your total capital would be ${totalCapital} ${baseCurrency}`;
+      const prediction = `The best time to sell your ${baseCurrency} is ${data.date} at the rate of ${data.rate} ${targetCurrency}.`;
       $('#notification').toggle();
       $('#notification-text').text(prediction);
     })
