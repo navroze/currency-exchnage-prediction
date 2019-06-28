@@ -24,6 +24,7 @@ Prerequisites
 
 - Install [Python](https://www.python.org/downloads/)
 - Install [Node.js LTS](http://nodejs.org)
+- Install [Anaconda](https://www.anaconda.com/distribution/)]
 
 Getting Started
 ---------------
@@ -32,7 +33,7 @@ Getting Started
 # Get the latest snapshot
 git clone https://github.com/navroze/currency-exchnage-prediction.git
 
-cd currency
+cd currency-exchnage-prediction
 
 # Install NPM dependencies
 npm install
@@ -40,8 +41,15 @@ npm install
 # Install global dependencies
 npm install -g pm2
 
-# Install python dependecies
-pip install -r requirements.txt
+# Open anaconda prompt depending upon your operating system
+
+# Go to the root of currency-exchnage-prediction project
+
+# Create virtual environment and install python dependecies
+conda env create -f exchange_currency.yml
+
+# Activate the virtual environment from anaconda prompt
+conda activate exchange_currency_test
 
 # Then simply start your app
 npm start
